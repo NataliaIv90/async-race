@@ -1,0 +1,27 @@
+.outlined-button{
+    padding: 5px;
+    min-width: auto;
+    background-color: transparent;
+    color: #9aed76;
+    border: 1px solid #9aed76;
+    border-radius: 5px;
+    float: inline-start;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.outlined-button:disabled{
+    color: grey;
+    border-color: grey;
+    cursor: auto;
+}
+
+.car-item-main{
+    height: 40px;
+    padding-top: 10px;
+}
+
+.finish-flag{
+    position: absolute;
+    right: 80px;
+}

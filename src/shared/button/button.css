@@ -6,7 +6,7 @@
 }
 
 .button-container:not(:last-child){
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 .button-container:has(.accent-bg-main){
@@ -16,13 +16,14 @@
 button {
     padding: 5px 10px;
     transition: all 0.1s;
+    min-width: 83px;
 }
 
-button:hover{
+button:hover(:not(:disabled)){
     cursor: pointer;
 }
 
-button:active{
+button:active:not(:disabled){
     transform: translateY(3px);
     box-shadow: none;
 }
