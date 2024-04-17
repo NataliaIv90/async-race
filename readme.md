@@ -4,8 +4,8 @@
 
 ## reference image
 
-![img1]('./src/img/1.png')
+![img1]('src/img/1.png')
 
-![img2]('./src/img/2.png')
+![img2]('src/img/2.png')
 
-![img3]('./src/img/3.png')
+![img3]('src/img/3.png')
