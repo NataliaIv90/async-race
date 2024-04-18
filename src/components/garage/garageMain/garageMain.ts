@@ -1,5 +1,6 @@
 import { cars } from './cars/cars';
 import './garageMain.css';
+import { pagination } from '../../../shared/pagination/pagination';
 
 export const garageCarsWrapper = (): HTMLElement => {
     const div = document.createElement('div');
@@ -11,5 +12,8 @@ export const garageCarsWrapper = (): HTMLElement => {
     subTitle.innerText = `Page #1`;
 
     [title, subTitle, cars()].map((el) => div.appendChild(el));
+
+    div.appendChild(pagination(1, 1));
+
     return div;
 };
