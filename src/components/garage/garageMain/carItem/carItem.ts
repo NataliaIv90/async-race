@@ -58,7 +58,7 @@ const carItemMain = (color: string): HTMLElement => {
 
     const div = document.createElement('div');
     div.classList.add('car-item-main');
-    const carItem = car(color);
+    const carItem = car({ color: color });
 
     const flagIcon = flag();
     flagIcon.classList.add('finish-flag');
