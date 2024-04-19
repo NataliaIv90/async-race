@@ -2,7 +2,7 @@ import { header } from '../header/header';
 import { garage } from '../garage/garage';
 import { winners } from '../winners/winners';
 
-export const app = (): HTMLElement => {
+export const app = async (): Promise<HTMLElement> => {
     let mainPage = true;
 
     function changePage(newValue: boolean) {
@@ -10,10 +10,16 @@ export const app = (): HTMLElement => {
         render();
     }
 
-    function render() {
+    async function render() {
         div.innerHTML = '';
         div.appendChild(header(changePage));
-        mainPage ? div.appendChild(garage()) : div.appendChild(winners());
+
+        try {
+            const garageElement = await garage();
+            mainPage ? div.appendChild(garageElement) : div.appendChild(winners());
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const div = document.createElement('div');

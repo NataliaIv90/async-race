@@ -1,9 +1,23 @@
 import { makeApiCall } from './base';
 import { ICarParams, ICreateCarResponse } from '../types/types';
 
-// TODO: implement getCars function
+export const getCars = async (): Promise<ICreateCarResponse[]> => {
+    try {
+        const response: ICreateCarResponse[] = await makeApiCall({
+            url: '/garage',
+            method: 'GET',
+        });
 
-// export const getCars = () => {};
+        if (Array.isArray(response)) {
+            return response;
+        } else {
+            throw new Error('Failed to load the car list');
+        }
+    } catch (error) {
+        console.error('Error loading the car list:', error);
+        throw error;
+    }
+};
 
 // TODO: implement getCar function
 
@@ -16,7 +30,7 @@ export const createCar = async (data: ICarParams): Promise<ICreateCarResponse> =
     headers.append('Content-Type', 'application/json');
 
     try {
-        const response = await makeApiCall({
+        const response: ICreateCarResponse = await makeApiCall({
             url: '/garage',
             method: 'POST',
             headers: headers,
@@ -24,8 +38,7 @@ export const createCar = async (data: ICarParams): Promise<ICreateCarResponse> =
         });
 
         if (response?.id) {
-            console.log(response);
-            return response as ICreateCarResponse;
+            return response;
         } else {
             throw new Error('Failed to create car');
         }

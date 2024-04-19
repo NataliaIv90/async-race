@@ -1,6 +1,14 @@
 import { app } from './components/app/app';
 import './style.css';
 
-const bodyElement: HTMLElement = document.querySelector('body') as HTMLElement;
+const initializeApp = async () => {
+    const appElement = await app();
+    const bodyElement = document.querySelector('body');
+    if (bodyElement) {
+        bodyElement.appendChild(appElement);
+    } else {
+        console.error('Body element not found');
+    }
+};
 
-bodyElement.appendChild(app());
+initializeApp();

@@ -10,6 +10,11 @@
     cursor: pointer;
 }
 
+.outlined-button.red{
+    color: #e01f11;
+    border: 1px solid #e01f11;
+}
+
 .outlined-button:disabled{
     color: grey;
     border-color: grey;
@@ -24,6 +29,10 @@
 .finish-flag{
     position: absolute;
     right: 80px;
+}
+
+.car-item{
+    margin-bottom: 5px;
 }
 
 .car-item:last-of-type{

@@ -2,7 +2,7 @@ export const flag = (): HTMLElement => {
     const span = document.createElement('span');
 
     span.innerHTML = `
-    <svg fill="#e0be00" height="40px" width="40px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+    <svg fill="#e01f11" height="40px" width="40px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 viewBox="0 0 464.329 464.329" xml:space="preserve">
         <path d="M391.809,171.256l-159.095-51.566V62.423c0-0.04-0.011-0.077-0.012-0.116c-0.005-0.19-0.031-0.375-0.057-0.562
 	    c-0.02-0.145-0.033-0.29-0.065-0.431c-0.037-0.162-0.094-0.315-0.146-0.472c-0.051-0.153-0.096-0.307-0.161-0.453

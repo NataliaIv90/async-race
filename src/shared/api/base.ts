@@ -32,6 +32,7 @@ export const makeApiCall = async ({ method, url, queryParams, headers, body }: I
         }
 
         const result = await response.json();
+        console.log(response);
         return result;
     } catch (error) {
         console.error('Error making API call:', error);

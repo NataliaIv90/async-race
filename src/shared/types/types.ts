@@ -8,6 +8,7 @@ export interface IButtonData {
 
 export type TOutlinedButtonsData = Omit<IButtonData, "color" | "type" | "disabled"> & {
     disabled: boolean;
+    color: 'green' | 'red';
 };
 
 export interface ICarParams  {
