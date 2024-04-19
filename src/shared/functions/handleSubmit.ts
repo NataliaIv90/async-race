@@ -1,19 +1,21 @@
 import { ICarParams } from '../types/types';
 import { createCar, updateCar } from '../api/garageApi';
 import { toggleDisabledInput } from './toggleDisabledInput';
-import { app } from '../../components/app/app';
+import { fetchAndUpdateUI } from '../../components/garage/garageMain/garageMain';
 
 export const createCarFormDataHandler = async (formData: FormData) => {
     const data = handleSubmit(formData);
     await createCar(data);
+    fetchAndUpdateUI();
 };
 
 export const updateCarFormDataHandler = async (formData: FormData) => {
     const data = handleSubmit(formData);
     const id = Number(sessionStorage.getItem('id'));
-
     toggleDisabledInput();
     await updateCar(id, data);
+
+    setTimeout(() => fetchAndUpdateUI({ page: parseInt(localStorage.getItem('currentPage') as string) }));
 };
 
 export const handleSubmit = (formData: FormData) => {

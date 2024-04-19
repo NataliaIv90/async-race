@@ -1,20 +1,32 @@
+import { fetchAndUpdateUI } from '../../components/garage/garageMain/garageMain';
 import { button } from '../button/button';
 
-const goToPreviousPage = () => {
-    alert('Prev');
+const goToNextPage = (page: number): void => {
+    fetchAndUpdateUI({ page });
 };
 
-const goToNextPage = () => {
-    alert('Next');
-};
-
-export const pagination = (currentPage: number, totalPages: number) => {
+export const pagination = (limit: number) => {
+    const currentPage = parseInt(localStorage.getItem('currentPage') as string);
+    const totalCount = parseInt(localStorage.getItem('totalCount') as string);
+    const totalPages = Math.ceil(totalCount / limit);
     const div = document.createElement('div');
     div.classList.add('pagination-wrapper');
 
-    div.appendChild(button({ text: 'PREV', color: 'green', onClick: goToPreviousPage, disabled: currentPage === 1 }));
     div.appendChild(
-        button({ text: 'NEXT', color: 'green', onClick: goToNextPage, disabled: currentPage === totalPages })
+        button({
+            text: 'PREV',
+            color: 'green',
+            onClick: () => goToNextPage(currentPage - 1),
+            disabled: currentPage === 1,
+        })
+    );
+    div.appendChild(
+        button({
+            text: 'NEXT',
+            color: 'green',
+            onClick: () => goToNextPage(currentPage + 1),
+            disabled: currentPage === totalPages,
+        })
     );
 
     return div;

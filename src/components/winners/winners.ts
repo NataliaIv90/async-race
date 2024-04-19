@@ -14,7 +14,7 @@ export const winners = (): HTMLElement => {
 
     const winnersTableElement = winnersTable();
 
-    const paginationElement = pagination(1, 1);
+    const paginationElement = pagination(10);
 
     [title, subTitle, winnersTableElement, paginationElement].map((el) => {
         div.appendChild(el);

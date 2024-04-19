@@ -1,3 +1,4 @@
+import { fetchAndUpdateUI } from '../../components/garage/garageMain/garageMain';
 import { createCar } from '../api/garageApi';
 
 const generateRandomColor = () => {
@@ -52,6 +53,7 @@ const generateRandomCar = () => {
 export const generateCars = () => {
     for (let i = 0; i < 100; i += 1) {
         createCar({ color: generateRandomColor(), name: generateRandomCar() });
-        // console.log(i, { color: generateRandomColor(), name: generateRandomCar() });
     }
+
+    setTimeout(fetchAndUpdateUI, 2000);
 };

@@ -1,10 +1,25 @@
 import { makeApiCall } from './base';
 import { ICarParams, ICreateCarResponse } from '../types/types';
 
-export const getCars = async (): Promise<ICreateCarResponse[]> => {
+// interface IResponse {
+//     data: ICreateCarResponse[];
+//     headers: Headers;
+// }
+
+interface ICarsRequest {
+    page?: number;
+    limit?: number;
+}
+export const getCars = async ({ page = 1, limit = 7 }: ICarsRequest): Promise<ICreateCarResponse[]> => {
+    let url = '/garage';
+
+    if (page && limit) {
+        url += `?_page=${page}&_limit=${limit}`;
+    }
+
     try {
-        const response: ICreateCarResponse[] = await makeApiCall({
-            url: '/garage',
+        const response: ICreateCarResponse = await makeApiCall({
+            url: url,
             method: 'GET',
         });
 

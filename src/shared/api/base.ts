@@ -30,9 +30,13 @@ export const makeApiCall = async ({ method, url, queryParams, headers, body }: I
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
         const result = await response.json();
-        console.log(response);
+        const totalCount = response?.headers?.get('X-Total-Count');
+
+        if (totalCount) {
+            localStorage.setItem('totalCount', totalCount);
+        }
+
         return result;
     } catch (error) {
         console.error('Error making API call:', error);
