@@ -19,11 +19,9 @@ export const getCars = async (): Promise<ICreateCarResponse[]> => {
     }
 };
 
-// TODO: implement getCar function
-
-// export const getCar = () => {
-//     makeApiCall({ url: '/garage', method: 'GET' });
-// };
+export const getCar = (id: number): Promise<ICreateCarResponse> => {
+    return makeApiCall({ url: `/garage/${id}`, method: 'GET' });
+};
 
 export const createCar = async (data: ICarParams): Promise<ICreateCarResponse> => {
     const headers = new Headers();
@@ -48,25 +46,24 @@ export const createCar = async (data: ICarParams): Promise<ICreateCarResponse> =
     }
 };
 
-//  TODO: Implment updateCar function
+export const updateCar = (id: number, data: ICarParams) => {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
-// export const updateCar = (id: number, data: ICarParams) => {
-//     const headers = new Headers();
-//     headers.append('Content-Type', 'application/json');
+    console.log(data);
+    makeApiCall({
+        url: `/garage/${id}`,
+        method: 'PUT',
+        headers: headers,
+        body: JSON.stringify(data),
+    });
+};
 
-//     makeApiCall({
-//         url: `/garage:${id}`,
-//         method: 'PUT',
-//         headers: headers,
-//         data: data,
-//     });
-// };
-
-//  TODO: Implment deleteCar function
-
-// export const deleteCar = (id: number) => {
-//     makeApiCall({
-//         url: `/garage:${id}`,
-//         method: 'DELETE',
-//     });
-// };
+export const deleteCar = (id: number): Promise<void> => {
+    return makeApiCall({
+        url: `/garage/${id}`,
+        method: 'DELETE',
+    }).catch((error) => {
+        console.error('Error deleting car:', error);
+    });
+};

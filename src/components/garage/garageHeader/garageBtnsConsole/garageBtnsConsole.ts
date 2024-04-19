@@ -1,4 +1,5 @@
 import { button } from '../../../../shared/button/button';
+import { generateCars } from '../../../../shared/functions/generateCars';
 
 export const garageBtnConsole = (): HTMLElement => {
     const btnsData = [
@@ -12,7 +13,7 @@ export const garageBtnConsole = (): HTMLElement => {
         },
         {
             text: 'GENERATE CARS',
-            onClick: () => {},
+            onClick: generateCars,
             color: 'green',
         },
     ];

@@ -1,18 +1,20 @@
-import { button } from '../../../../shared/button/button';
+import { button, outlinedButton } from '../../../../shared/button/button';
 import { car } from '../car/car';
-import { TOutlinedButtonsData } from '../../../../shared/types/types';
 import './carItem.css';
 import { flag } from '../flag/flag';
 import { ICreateCarResponse } from '../../../../shared/types/types';
+import { carItemEventListener } from '../../../../shared/functions/carItemEventListener';
 
 const carItemHeader = (name: string): HTMLElement => {
     const btnsData = [
         {
             text: 'Select',
+            className: 'select',
             onClick: () => {},
         },
         {
             text: 'Remove',
+            className: 'remove',
             onClick: () => {},
         },
     ];
@@ -23,27 +25,12 @@ const carItemHeader = (name: string): HTMLElement => {
         carName.innerText = name;
     }
 
-    btnsData.map((el) => div.appendChild(button({ text: el.text, onClick: el.onClick, color: 'blue' })));
+    btnsData.map((el) =>
+        div.appendChild(button({ text: el.text, onClick: el.onClick, color: 'blue', className: el.className }))
+    );
     div.appendChild(carName);
 
     return div;
-};
-
-const outlinedButton = ({ text, onClick, disabled, color }: TOutlinedButtonsData): HTMLButtonElement => {
-    const button = document.createElement('button');
-
-    button.innerText = text;
-    button.classList.add('outlined-button');
-    button.classList.add(color);
-    button.disabled = disabled;
-    button.setAttribute('type', 'button');
-    button.addEventListener('click', () => {
-        if (!button.disabled) {
-            onClick();
-        }
-    });
-
-    return button;
 };
 
 const carItemMain = (color: string): HTMLElement => {
@@ -89,6 +76,8 @@ export const carItem = ({ color, name, id }: ICreateCarResponse): HTMLElement =>
 
     div.appendChild(carItemHeader(name));
     div.appendChild(carItemMain(color));
+
+    div.addEventListener('click', carItemEventListener(id));
 
     return div;
 };

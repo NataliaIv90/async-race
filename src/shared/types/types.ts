@@ -1,9 +1,11 @@
 export interface IButtonData {
     text: string;
     color: 'blue' | 'green';
-    onClick: ()=>void;
+    onClick?: ()=>void;
     type?: 'button' | 'submit';
     disabled?: boolean;
+    className?: string;
+    id?: string;
 }
 
 export type TOutlinedButtonsData = Omit<IButtonData, "color" | "type" | "disabled"> & {
@@ -32,4 +34,5 @@ export interface IInputData {
     name: string;
     disabled?: boolean;
     value?: string;
+    id?: string;
 }
