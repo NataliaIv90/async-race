@@ -1,9 +1,17 @@
+import { ICarParams } from '../types/types';
+import { createCar } from '../api/garageApi';
+
+export const createCarFormDataHandler = (formData: FormData) => {
+    const data = handleSubmit(formData);
+    createCar(data);
+};
+
 export const handleSubmit = (formData: FormData) => {
-    const formDataObject: { [key: string]: string } = {};
+    const data: ICarParams = {
+        name: formData.get('car') as string,
+        color: formData.get('color') as string,
+    };
 
-    for (const entry of formData.entries()) {
-        formDataObject[entry[0]] = entry[1] as string;
-    }
-
-    console.log(formDataObject);
+    console.log(data);
+    return data;
 };

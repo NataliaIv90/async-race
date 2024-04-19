@@ -10,6 +10,15 @@ export type TOutlinedButtonsData = Omit<IButtonData, "color" | "type" | "disable
     disabled: boolean;
 };
 
+export interface ICarParams  {
+    name: string,
+    color: string
+}
+
+export interface ICreateCarResponse extends ICarParams {
+    id: number;
+}
+
 export interface IFormData {
     id: string;
     submitBtnText: string;

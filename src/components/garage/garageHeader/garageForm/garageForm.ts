@@ -12,6 +12,15 @@ const createInput = ({ type, name, disabled = false, value }: IInputData): HTMLI
     return input;
 };
 
+export const handleFormSubmit = (form: HTMLFormElement, onSubmit: (formData: FormData) => void) => {
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        onSubmit(formData);
+        form.reset();
+    });
+};
+
 export const garageForm = ({ id, submitBtnText, onSubmit, disabled = false }: IFormData): HTMLElement => {
     const form = document.createElement('form');
     form.id = id;
@@ -28,12 +37,7 @@ export const garageForm = ({ id, submitBtnText, onSubmit, disabled = false }: IF
         disabled: disabled,
     });
 
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const formData = new FormData(form);
-        onSubmit(formData);
-        form.reset();
-    });
+    handleFormSubmit(form, onSubmit);
 
     [textInput, colorInput, submitBtn].map((el) => form.appendChild(el));
 
