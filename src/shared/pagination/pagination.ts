@@ -2,7 +2,7 @@ import { fetchAndUpdateUI } from '../../components/garage/garageMain/garageMain'
 import { button } from '../button/button';
 
 const goToNextPage = (page: number): void => {
-    fetchAndUpdateUI({ page });
+    fetchAndUpdateUI(page);
 };
 
 export const pagination = (limit: number) => {

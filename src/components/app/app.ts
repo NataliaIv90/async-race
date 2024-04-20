@@ -15,8 +15,13 @@ export const app = async (): Promise<HTMLElement> => {
         div.appendChild(header(changePage));
 
         try {
-            const garageElement = await garage();
-            mainPage ? div.appendChild(garageElement) : div.appendChild(winners());
+            if (mainPage) {
+                const garageElement = await garage();
+                div.appendChild(garageElement);
+            } else {
+                const winnersElement = await winners();
+                div.appendChild(winnersElement);
+            }
         } catch (error) {
             console.log(error);
         }

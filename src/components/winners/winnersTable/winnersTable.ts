@@ -1,6 +1,7 @@
 import { createElement } from '../../../shared/functions/createElement';
 import { car } from '../../garage/garageMain/car/car';
 import './winnersTable.css';
+import { ICreateCarResponse, IWinnerData } from '../../../shared/types/types';
 
 interface IWinnerTableRow {
     number: number | string;
@@ -23,7 +24,13 @@ const createRow = ({ number, car, name, wins, bestTime, tableHeading }: IWinnerT
     return div;
 };
 
-export const winnersTable = (): HTMLElement => {
+export const winnersTable = (winnersData: IWinnerData[]): HTMLElement => {
+    const carsList: ICreateCarResponse[] = JSON.parse(localStorage.getItem('carsList') as string);
+
+    if (!Array.isArray(carsList)) {
+        return createElement({ element: 'div', innerHtml: 'There are no winners' });
+    }
+
     const div = createElement({ element: 'div', className: 'winners-table' });
     const heading = createRow({
         number: '№',
@@ -36,15 +43,21 @@ export const winnersTable = (): HTMLElement => {
 
     div.appendChild(heading);
 
-    div.appendChild(
-        createRow({
-            number: 1,
-            car: car({ color: '#456321', size: '30px' }),
-            name: 'Lanos',
-            wins: 3,
-            bestTime: 3.5,
-        })
-    );
+    winnersData.map((winner, index) => {
+        const currentWinnerData: ICreateCarResponse | undefined = carsList.find((car) => car.id === winner.id);
+
+        if (currentWinnerData) {
+            div.appendChild(
+                createRow({
+                    number: index + 1,
+                    car: car({ color: currentWinnerData.color, size: '30px' }),
+                    name: currentWinnerData.name,
+                    wins: winner.wins,
+                    bestTime: winner.time,
+                })
+            );
+        }
+    });
 
     return div;
 };

@@ -5,7 +5,7 @@ import { getCars } from '../../../shared/api/garageApi';
 import { createElement } from '../../../shared/functions/createElement';
 import { ICreateCarResponse } from '../../../shared/types/types';
 
-const updateUIWithData = (data: ICreateCarResponse[]) => {
+const updateUIWithData = ({ data }: { data: ICreateCarResponse[]; totalPages: number }) => {
     const carsWrapper = document.querySelector('.cars-wrapper') as HTMLElement;
     carsWrapper.innerHTML = '';
 
@@ -26,18 +26,19 @@ const updateUIWithData = (data: ICreateCarResponse[]) => {
     carsWrapper.appendChild(pagination(7));
 };
 
-export const fetchAndUpdateUI = async ({ page = 1, limit = 7 }: { page?: number; limit?: number } = {}) => {
+export const fetchAndUpdateUI = async (page?: number, limit?: number) => {
+    const currentPage = page || 1;
+    const currentLimit = limit || 7;
     try {
         const totalCount = parseInt(localStorage.getItem('totalCount') as string);
-        const totalPages = Math.ceil(totalCount / limit);
-        if (page > totalPages) {
-            page = 1;
-        }
-        const response = await getCars({ page: page, limit: 7 });
-        localStorage.setItem('currentPage', page.toString());
-        localStorage.setItem('carsList', JSON.stringify(response));
+        const totalPages = Math.ceil(totalCount / currentLimit);
 
-        updateUIWithData(response);
+        const response = await getCars({ page: currentPage, limit: currentLimit });
+        const allCarsList = await getCars({});
+        localStorage.setItem('currentPage', currentPage.toString());
+        localStorage.setItem('carsList', JSON.stringify(allCarsList));
+
+        updateUIWithData({ data: response, totalPages: totalPages });
     } catch (error) {
         console.error('Error fetching and updating data:', error);
     }

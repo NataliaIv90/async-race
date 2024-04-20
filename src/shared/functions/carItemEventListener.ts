@@ -28,7 +28,7 @@ export const carItemEventListener =
                 if (classNameList.includes('remove')) {
                     await deleteCar(id);
                     const currentPage = parseInt(localStorage.getItem('currentPage') as string);
-                    fetchAndUpdateUI({ page: currentPage });
+                    fetchAndUpdateUI(currentPage);
                 }
 
                 if (classNameList.includes('select')) {
