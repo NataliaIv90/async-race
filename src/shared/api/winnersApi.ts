@@ -2,8 +2,16 @@ import { IPaginationDataRequest, IWinnerData } from '../types/types';
 import { makeApiCall } from './base';
 
 export const getWinner = async (id: number): Promise<IWinnerData | Error> => {
-    const data = await makeApiCall({ url: `/garage/${id}`, method: 'GET' });
-    return data;
+    try {
+        const data: IWinnerData | undefined = await makeApiCall({ url: `/garage/${id}`, method: 'GET' });
+        if (!data) {
+            throw new Error('Winner data not found');
+        }
+        return data;
+    } catch (error) {
+        console.error('Error fetching winner:', error);
+        return error instanceof Error ? error : new Error('Failed to fetch winner');
+    }
 };
 
 export const getWinners = async ({ page, limit }: IPaginationDataRequest): Promise<IWinnerData[]> => {
@@ -54,12 +62,15 @@ export const createWinner = async (data: IWinnerData): Promise<IWinnerData | Err
 };
 
 export const deleteWinner = async (id: number): Promise<void> => {
-    return await makeApiCall({
-        url: `/winners/${id}`,
-        method: 'DELETE',
-    }).catch((error) => {
+    try {
+        await makeApiCall({
+            url: `/winners/${id}`,
+            method: 'DELETE',
+        });
+    } catch (error) {
         console.error('Error deleting winner:', error);
-    });
+        throw error; // Re-throw the error to propagate it to the caller
+    }
 };
 
 export const updateWinner = async ({ id, wins, time }: IWinnerData): Promise<IWinnerData> => {
@@ -67,7 +78,7 @@ export const updateWinner = async ({ id, wins, time }: IWinnerData): Promise<IWi
     headers.append('Content-Type', 'application/json');
 
     return await makeApiCall({
-        url: `/garage/${id}`,
+        url: `/winners/${id}`,
         method: 'PUT',
         headers: headers,
         body: JSON.stringify({ wins, time }),

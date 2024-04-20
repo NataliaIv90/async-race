@@ -22,6 +22,12 @@ export interface ICreateCarResponse extends ICarParams {
     id: number;
 }
 
+export interface IErrorResponce {
+    status: number;
+    message: string;
+    data?: undefined;
+}
+
 export interface IFormData {
     id: string;
     submitBtnText: string;
