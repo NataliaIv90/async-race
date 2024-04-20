@@ -8,15 +8,15 @@ const goToNextPage = async (
 ): Promise<void> => {
     try {
         await fetchAndUpdateUI(page);
-        localStorage.setItem('currentPage', page.toString()); // Store the current page in local storage
+        localStorage.setItem('currentPage', page.toString());
     } catch (error) {
         console.error('Error updating UI:', error);
     }
 };
 
 export const pagination = (limit: number, view: string) => {
-    const currentPage = parseInt(localStorage.getItem('currentPage') as string) || 1; // Retrieve the current page from local storage, default to 1 if not set
-    const totalCount = parseInt(localStorage.getItem('totalCount') as string) || 0; // Retrieve the total count from local storage, default to 0 if not set
+    const currentPage = parseInt(localStorage.getItem('currentPage') as string) || 1;
+    const totalCount = parseInt(localStorage.getItem('totalCount') as string) || 0;
     const totalPages = Math.ceil(totalCount / limit);
     const div = document.createElement('div');
     div.classList.add('pagination-wrapper');
@@ -26,7 +26,7 @@ export const pagination = (limit: number, view: string) => {
             text: 'PREV',
             color: 'green',
             onClick: () =>
-                goToNextPage(view === 'garage' ? fetchGarageAndUpdateUI : fetchAndUpdateWinnersUI, currentPage - 1), // Use the appropriate fetchAndUpdateUI function based on the view
+                goToNextPage(view === 'garage' ? fetchGarageAndUpdateUI : fetchAndUpdateWinnersUI, currentPage - 1),
             disabled: currentPage === 1,
         })
     );
@@ -35,7 +35,7 @@ export const pagination = (limit: number, view: string) => {
             text: 'NEXT',
             color: 'green',
             onClick: () =>
-                goToNextPage(view === 'garage' ? fetchGarageAndUpdateUI : fetchAndUpdateWinnersUI, currentPage + 1), // Use the appropriate fetchAndUpdateUI function based on the view
+                goToNextPage(view === 'garage' ? fetchGarageAndUpdateUI : fetchAndUpdateWinnersUI, currentPage + 1),
             disabled: currentPage === totalPages,
         })
     );

@@ -69,7 +69,7 @@ export const deleteWinner = async (id: number): Promise<void> => {
         });
     } catch (error) {
         console.error('Error deleting winner:', error);
-        throw error; // Re-throw the error to propagate it to the caller
+        throw error;
     }
 };
 

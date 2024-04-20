@@ -32,6 +32,7 @@ export const carItemEventListener =
                 }
 
                 if (classNameList.includes('select')) {
+                    console.log(id);
                     setTimeout(() => {
                         setDataToChange(id);
                         toggleDisabledInput('active');

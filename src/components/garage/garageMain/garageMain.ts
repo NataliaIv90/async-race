@@ -18,7 +18,7 @@ const updateUIWithData = ({ data }: { data: ICreateCarResponse[]; totalPages: nu
         innerHtml: `Page #${parseInt(localStorage.getItem('currentPage') as string)}`,
     });
 
-    const wrapperDiv = createElement({ element: 'div', className: 'garage-container' });
+    const wrapperDiv = createElement({ element: 'div', className: 'cars-wrapper' });
     wrapperDiv.appendChild(title);
     wrapperDiv.appendChild(subTitle);
     wrapperDiv.appendChild(carsElement);
@@ -40,15 +40,14 @@ export const fetchAndUpdateUI = async (page?: number, limit?: number): Promise<v
         localStorage.setItem('carsList', JSON.stringify(allCarsList));
 
         const div = updateUIWithData({ data: response, totalPages: totalPages });
-        document.querySelector('.garage-container')?.replaceWith(div);
+        document.querySelector('.cars-wrapper')?.replaceWith(div);
     } catch (error) {
         console.error('Error fetching and updating data:', error);
     }
 };
 
 export const renderGarageCarsWrapper = (page?: number): HTMLElement => {
-    const div = createElement({ element: 'div', className: 'garage-container' });
-
+    const div = createElement({ element: 'div', className: 'cars-wrapper' });
     fetchAndUpdateUI(page);
     return div;
 };
