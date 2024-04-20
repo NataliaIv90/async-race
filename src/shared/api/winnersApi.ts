@@ -1,15 +1,75 @@
-const getWinner = () => {
-    
-}
+import { IPaginationDataRequest, IWinnerData } from '../types/types';
+import { makeApiCall } from './base';
 
-const getWinners = () => {
+export const getWinner = async (id: number): Promise<IWinnerData | Error> => {
+    const data = await makeApiCall({ url: `/garage/${id}`, method: 'GET' });
+    return data;
+};
 
-}
+export const getWinners = async ({ page, limit }: IPaginationDataRequest): Promise<IWinnerData[]> => {
+    let url = '/winners';
 
-const createWinner = () => {
+    if (page && limit) {
+        url += `?_page=${page}&_limit=${limit}`;
+    }
 
-}
+    try {
+        const response: IWinnerData[] = await makeApiCall({
+            url: url,
+            method: 'GET',
+        });
 
-const updateWinner = () => {
+        if (Array.isArray(response)) {
+            return response;
+        } else {
+            throw new Error('Failed to load winners');
+        }
+    } catch (error) {
+        console.error('Error loading the winners list:', error);
+        throw error;
+    }
+};
 
-}
+export const createWinner = async (data: IWinnerData): Promise<IWinnerData | Error> => {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    try {
+        const response: IWinnerData = await makeApiCall({
+            url: '/winners',
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(data),
+        });
+
+        if (response?.id) {
+            return response;
+        } else {
+            throw new Error('Failed to post winner data');
+        }
+    } catch (error) {
+        console.error('Error creating winner:', error);
+        throw error;
+    }
+};
+
+export const deleteWinner = async (id: number): Promise<void> => {
+    return await makeApiCall({
+        url: `/winners/${id}`,
+        method: 'DELETE',
+    }).catch((error) => {
+        console.error('Error deleting winner:', error);
+    });
+};
+
+export const updateWinner = async ({ id, wins, time }: IWinnerData): Promise<IWinnerData> => {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    return await makeApiCall({
+        url: `/garage/${id}`,
+        method: 'PUT',
+        headers: headers,
+        body: JSON.stringify({ wins, time }),
+    });
+};

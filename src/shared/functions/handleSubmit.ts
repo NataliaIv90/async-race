@@ -15,7 +15,7 @@ export const updateCarFormDataHandler = async (formData: FormData) => {
     toggleDisabledInput();
     await updateCar(id, data);
 
-    setTimeout(() => fetchAndUpdateUI({ page: parseInt(localStorage.getItem('currentPage') as string) }));
+    setTimeout(() => fetchAndUpdateUI(parseInt(localStorage.getItem('currentPage') as string)));
 };
 
 export const handleSubmit = (formData: FormData) => {

@@ -36,3 +36,20 @@ export interface IInputData {
     value?: string;
     id?: string;
 }
+
+export interface IPaginationDataRequest {
+    page?: number;
+    limit?: number;
+}
+
+export interface IWinnerData{
+    id: number,
+    wins: number,
+    time: number,
+}
+
+export interface IWinnersPageData {
+    page?: number,
+    winnersNumber: number,
+    winnersData: IWinnerData[],
+}
