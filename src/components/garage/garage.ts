@@ -1,6 +1,6 @@
 import './garage.css';
 import { garageHeader } from './garageHeader/garageHeader';
-import { garageCarsWrapper } from './garageMain/garageMain';
+import { renderGarageCarsWrapper } from './garageMain/garageMain';
 
 export const garage = async (): Promise<HTMLElement> => {
     const div = document.createElement('div');
@@ -9,7 +9,7 @@ export const garage = async (): Promise<HTMLElement> => {
     div.appendChild(garageHeader());
 
     try {
-        const carsWrapper = await garageCarsWrapper();
+        const carsWrapper = await renderGarageCarsWrapper();
         div.appendChild(carsWrapper);
     } catch (error) {
         console.error('Error rendering garage cars:', error);
