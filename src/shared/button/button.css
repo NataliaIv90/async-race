@@ -6,7 +6,7 @@
 }
 
 .button-container:not(:last-child){
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 .button-container:has(.accent-bg-main){
@@ -16,13 +16,14 @@
 button {
     padding: 5px 10px;
     transition: all 0.1s;
+    min-width: 83px;
 }
 
-button:hover{
+button:hover(:not(:disabled)){
     cursor: pointer;
 }
 
-button:active{
+button:active:not(:disabled){
     transform: translateY(3px);
     box-shadow: none;
 }
@@ -33,4 +34,29 @@ button:active{
 
 .accent-bg-secondary {
     background-color: var(--accent-color-secondary);
+}
+
+/* outlined button style */
+
+.outlined-button{
+    padding: 5px;
+    min-width: auto;
+    background-color: transparent;
+    color: #9aed76;
+    border: 1px solid #9aed76;
+    border-radius: 5px;
+    float: inline-start;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.outlined-button.red{
+    color: #e01f11;
+    border: 1px solid #e01f11;
+}
+
+.outlined-button:disabled{
+    color: grey;
+    border-color: grey;
+    cursor: auto;
 }
