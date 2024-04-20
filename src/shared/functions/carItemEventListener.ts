@@ -1,4 +1,4 @@
-import { fetchAndUpdateUI } from '../../components/garage/garageMain/garageMain';
+import { renderGarageCarsWrapper } from '../../components/garage/garageMain/garageMain';
 import { deleteCar } from '../api/garageApi';
 import { ICreateCarResponse } from '../types/types';
 import { toggleDisabledInput } from './toggleDisabledInput';
@@ -28,10 +28,11 @@ export const carItemEventListener =
                 if (classNameList.includes('remove')) {
                     await deleteCar(id);
                     const currentPage = parseInt(localStorage.getItem('currentPage') as string);
-                    fetchAndUpdateUI(currentPage);
+                    renderGarageCarsWrapper(currentPage);
                 }
 
                 if (classNameList.includes('select')) {
+                    console.log(id);
                     setTimeout(() => {
                         setDataToChange(id);
                         toggleDisabledInput('active');

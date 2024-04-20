@@ -5,7 +5,7 @@ import { IWinnersPageData } from '../../shared/types/types';
 import './winners.css';
 import { winnersTable } from './winnersTable/winnersTable';
 
-const updateWinnersUI = ({ page = 1, winnersNumber, winnersData }: IWinnersPageData): HTMLElement[] => {
+const updateWinnersUI = ({ page = 1, winnersNumber, winnersData }: IWinnersPageData): HTMLElement => {
     const title = createElement({
         element: 'h1',
         innerHtml: `Winners ${winnersNumber}`,
@@ -18,35 +18,32 @@ const updateWinnersUI = ({ page = 1, winnersNumber, winnersData }: IWinnersPageD
 
     const winnersTableElement = winnersTable(winnersData);
 
-    const paginationElement = pagination(10);
+    const div = createElement({ element: 'div', className: 'winners-container' });
+    div.appendChild(title);
+    div.appendChild(subTitle);
+    div.appendChild(winnersTableElement);
+    div.appendChild(pagination(10, ''));
 
-    return [title, subTitle, winnersTableElement, paginationElement];
+    return div;
 };
 
-const fetchAndUpdateWinnersUI = async (page?: number, limit?: number): Promise<HTMLElement[]> => {
+export const fetchAndUpdateWinnersUI = async (page?: number, limit?: number): Promise<void> => {
     const winnersData = await getWinners({
         page: page ? page : 1,
         limit: limit ? limit : 10,
     });
 
-    const data = updateWinnersUI({
+    const div = updateWinnersUI({
         page: page,
         winnersNumber: JSON.parse(localStorage.getItem('totalCount') as string),
         winnersData: winnersData,
     });
 
-    return data;
+    document.querySelector('.winners-container')?.replaceWith(div);
 };
 
-export const winners = async (): Promise<HTMLElement> => {
-    const div = document.createElement('div');
-    div.classList.add('winners-container');
-
-    const data = await fetchAndUpdateWinnersUI();
-    if (Array.isArray(data)) {
-        data.forEach((el) => {
-            div.appendChild(el);
-        });
-    }
+export const winners = (): HTMLElement => {
+    const div = createElement({ element: 'div', className: 'winners-container' });
+    fetchAndUpdateWinnersUI();
     return div;
 };

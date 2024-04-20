@@ -75,5 +75,6 @@ export const deleteCar = (id: number): Promise<void> => {
         method: 'DELETE',
     }).catch((error) => {
         console.error('Error deleting car:', error);
-    });
+        throw error;
+    }) as Promise<void>;
 };
