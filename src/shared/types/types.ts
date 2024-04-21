@@ -59,3 +59,5 @@ export interface IWinnersPageData {
     winnersNumber: number,
     winnersData: IWinnerData[],
 }
+
+export type TBestCarData = Omit<IWinnerData, 'wins'>

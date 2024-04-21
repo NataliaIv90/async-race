@@ -2,6 +2,7 @@ import { ICarParams } from '../types/types';
 import { createCar, updateCar } from '../api/garageApi';
 import { toggleDisabledInput } from './toggleDisabledInput';
 import { fetchAndUpdateUI } from '../../components/garage/garageMain/garageMain';
+import { setToStorageAllCars } from './setToStorageAllCars';
 
 export const createCarFormDataHandler = async (formData: FormData) => {
     const data = handleSubmit(formData);
@@ -15,7 +16,10 @@ export const updateCarFormDataHandler = async (formData: FormData) => {
     toggleDisabledInput();
     await updateCar(id, data);
 
-    setTimeout(() => fetchAndUpdateUI(parseInt(localStorage.getItem('currentPage') as string)));
+    setTimeout(() => {
+        setToStorageAllCars();
+        fetchAndUpdateUI(parseInt(localStorage.getItem('currentPage') as string));
+    });
 };
 
 export const handleSubmit = (formData: FormData) => {

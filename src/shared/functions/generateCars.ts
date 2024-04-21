@@ -1,5 +1,6 @@
 import { fetchAndUpdateUI } from '../../components/garage/garageMain/garageMain';
 import { createCar } from '../api/garageApi';
+import { setToStorageAllCars } from './setToStorageAllCars';
 
 const generateRandomColor = () => {
     const letters = '0123456789ABCDEF';
@@ -47,7 +48,7 @@ const generateRandomCar = () => {
         'Land Cruiser',
     ];
 
-    return `${brands[Math.floor(Math.random() * brands.length)]} ${models[Math.round(Math.random() * models.length)]}`;
+    return `${brands[Math.floor(Math.random() * (brands.length - 1))]} ${models[Math.round(Math.random() * (models.length - 1))]}`;
 };
 
 export const generateCars = () => {
@@ -55,5 +56,8 @@ export const generateCars = () => {
         createCar({ color: generateRandomColor(), name: generateRandomCar() });
     }
 
-    setTimeout(fetchAndUpdateUI, 2000);
+    setTimeout(() => {
+        fetchAndUpdateUI();
+        setToStorageAllCars();
+    }, 2000);
 };

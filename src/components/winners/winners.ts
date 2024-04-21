@@ -32,13 +32,20 @@ export const fetchAndUpdateWinnersUI = async (page?: number, limit?: number): Pr
         page: page ? page : 1,
         limit: limit ? limit : 10,
     });
-
-    const div = updateWinnersUI({
-        page: page,
-        winnersNumber: JSON.parse(localStorage.getItem('totalCount') as string),
-        winnersData: winnersData,
-    });
-
+    let div: HTMLElement;
+    if (winnersData) {
+        div = updateWinnersUI({
+            page: page,
+            winnersNumber: JSON.parse(localStorage.getItem('totalCount') as string),
+            winnersData: winnersData,
+        });
+    } else {
+        div = createElement({
+            element: 'div',
+            className: 'winners-container',
+            innerHtml: 'There are no winners to display',
+        });
+    }
     document.querySelector('.winners-container')?.replaceWith(div);
 };
 

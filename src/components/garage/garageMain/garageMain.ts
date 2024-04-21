@@ -35,10 +35,8 @@ export const fetchAndUpdateUI = async (page?: number, limit?: number): Promise<v
         const totalPages = Math.ceil(totalCount / currentLimit);
 
         const response = await getCars({ page: currentPage, limit: currentLimit });
-        const allCarsList = await getCars({});
         localStorage.setItem('currentPage', currentPage.toString());
-        localStorage.setItem('carsList', JSON.stringify(allCarsList));
-
+        localStorage.setItem('currentRaceList', JSON.stringify(response));
         const div = updateUIWithData({ data: response, totalPages: totalPages });
         document.querySelector('.cars-wrapper')?.replaceWith(div);
     } catch (error) {

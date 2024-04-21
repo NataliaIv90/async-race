@@ -37,7 +37,13 @@ export const makeApiCall = async <T>({ method, url, queryParams, headers, body }
     try {
         const response = await fetch(currentUrl, requestOptions);
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            let errorMessage: string;
+            if (response.status === 500) {
+                errorMessage = "Car has been stopped suddenly. It's engine was broken down.";
+            } else {
+                errorMessage = `HTTP error! Status: ${response.status}`;
+            }
+            throw new Error(errorMessage);
         }
 
         const result = await response.json();
@@ -49,6 +55,9 @@ export const makeApiCall = async <T>({ method, url, queryParams, headers, body }
         return result as T;
     } catch (error) {
         console.error('Error making API call:', error);
+        if (error && typeof error === 'object' && 'status' in error) {
+            console.error('500 error error -----------------------------------', error.status);
+        }
         throw error;
     }
 };

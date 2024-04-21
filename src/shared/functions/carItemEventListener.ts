@@ -1,6 +1,11 @@
 import { renderGarageCarsWrapper } from '../../components/garage/garageMain/garageMain';
+import { toggleEngine } from '../api/engineApi';
 import { deleteCar } from '../api/garageApi';
+import { deleteWinner, getWinner } from '../api/winnersApi';
 import { ICreateCarResponse } from '../types/types';
+import { disableButtonByColor } from './disableButtonByColor';
+import { toggleEngineOnAndMove } from './move';
+import { setToStorageAllCars } from './setToStorageAllCars';
 import { toggleDisabledInput } from './toggleDisabledInput';
 
 const setDataToChange = (id: number): void => {
@@ -26,13 +31,17 @@ export const carItemEventListener =
 
             if (classNameList) {
                 if (classNameList.includes('remove')) {
+                    const dataFromWinnersBase = await getWinner(id);
+                    if (dataFromWinnersBase) {
+                        await deleteWinner(id);
+                    }
                     await deleteCar(id);
+                    setToStorageAllCars();
                     const currentPage = parseInt(localStorage.getItem('currentPage') as string);
                     renderGarageCarsWrapper(currentPage);
                 }
 
                 if (classNameList.includes('select')) {
-                    console.log(id);
                     setTimeout(() => {
                         setDataToChange(id);
                         toggleDisabledInput('active');
@@ -40,11 +49,13 @@ export const carItemEventListener =
                 }
 
                 if (classNameList.includes('red')) {
-                    console.log('Stop!', id);
+                    toggleEngine(id, 'stopped');
+                    disableButtonByColor(id, 'red');
                 }
 
                 if (classNameList.includes('green')) {
-                    console.log('Move!', id);
+                    disableButtonByColor(id, 'green');
+                    toggleEngineOnAndMove(id);
                 }
             }
         }
