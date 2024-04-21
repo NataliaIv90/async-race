@@ -48,7 +48,7 @@ const generateRandomCar = () => {
         'Land Cruiser',
     ];
 
-    return `${brands[Math.floor(Math.random() * brands.length)]} ${models[Math.round(Math.random() * models.length)]}`;
+    return `${brands[Math.floor(Math.random() * (brands.length - 1))]} ${models[Math.round(Math.random() * (models.length - 1))]}`;
 };
 
 export const generateCars = () => {

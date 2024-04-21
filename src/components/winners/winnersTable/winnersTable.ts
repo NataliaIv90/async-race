@@ -42,10 +42,8 @@ export const winnersTable = (winnersData: IWinnerData[]): HTMLElement => {
     });
 
     div.appendChild(heading);
-    console.log(winnersData);
     winnersData.map((winner, index) => {
         const currentWinnerData: ICreateCarResponse | undefined = carsList.find((car) => car.id === winner.id);
-        console.log(currentWinnerData);
         if (currentWinnerData) {
             div.appendChild(
                 createRow({

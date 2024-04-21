@@ -16,7 +16,7 @@ export const startRace = async (): Promise<{ id: number; time: number } | null> 
     cars.forEach((car: ICreateCarResponse) => {
         promises.push(toggleEngineOnAndMove(car.id));
     });
-
+    displayModal('Race started! Wait for results 🏁');
     const results: Array<{ id: number; time: number } | null> = await Promise.all(promises);
     let bestCar: TBestCarData | null = null;
     results.forEach((result) => {
@@ -27,6 +27,7 @@ export const startRace = async (): Promise<{ id: number; time: number } | null> 
 
     if (bestCar && bestCar !== null) {
         await postWinnerDataToServer(bestCar);
+        displayModal(`Winner: id: ${bestCar['id']}, time: ${bestCar['time']}`);
     }
 
     return bestCar;
@@ -38,16 +39,22 @@ export const postWinnerDataToServer = async (data: IWinnerData) => {
         wins: 1,
         time: data['time'],
     };
-    console.log('bestcar:', winnerData);
     const dataFromServerById: IWinnerData | undefined = await getWinner(data.id);
-    console.log(dataFromServerById);
     if (dataFromServerById === undefined) {
         await createWinner(winnerData);
-        console.log('data posted');
     } else {
         winnerData.wins = dataFromServerById.wins + 1;
         winnerData.time = winnerData.time < dataFromServerById.time ? winnerData.time : dataFromServerById.time;
         await updateWinner(winnerData);
-        console.log('data updated');
     }
+};
+
+export const displayModal = async (text: string) => {
+    const modal = document.querySelector('.modal') as HTMLElement;
+    modal.innerText = text;
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.innerText = '';
+    }, 3000);
 };

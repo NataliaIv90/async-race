@@ -11,7 +11,6 @@ export interface IToggleEngineData extends IEngineStatusResponse {
 
 export const toggleEngine = async (id: number, status: 'started' | 'stopped'): Promise<IToggleEngineData> => {
     try {
-        console.log('Sending PATCH request to toggle engine:', { id, status });
         const response: IEngineStatusResponse = await makeApiCall({
             url: `/engine/?id=${id}&status=${status}`,
             method: 'PATCH',
@@ -35,7 +34,6 @@ export const switchEngineToDriveMode = async (id: number): Promise<{ success: bo
             url: `/engine/?id=${id}&status=drive`,
             method: 'PATCH',
         });
-        console.log(response);
         return response;
     } catch (error) {
         if (typeof error === 'object' && error instanceof Error) {
@@ -48,7 +46,6 @@ export const switchEngineToDriveMode = async (id: number): Promise<{ success: bo
         } else {
             console.error('Unknown error occurred:', error);
         }
-        console.log({ success: false, brokenEngine: brokenEngine });
         return { success: false, brokenEngine: brokenEngine };
     }
 };

@@ -1,6 +1,7 @@
 import { header } from '../header/header';
 import { garage } from '../garage/garage';
 import { winners } from '../winners/winners';
+import { createElement } from '../../shared/functions/createElement';
 
 export const app = async (): Promise<HTMLElement> => {
     let mainPage = true;
@@ -22,6 +23,9 @@ export const app = async (): Promise<HTMLElement> => {
                 const winnersElement = await winners();
                 div.appendChild(winnersElement);
             }
+            const modal = createElement({ element: 'div', className: 'modal' });
+            modal.classList.add('hidden');
+            div.appendChild(modal);
         } catch (error) {
             console.log(error);
         }

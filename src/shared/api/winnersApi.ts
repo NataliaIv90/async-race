@@ -9,11 +9,11 @@ export const getWinner = async (id: number): Promise<IWinnerData | undefined> =>
         }
         return data;
     } catch (error) {
-        console.error('Error fetching winner:', error);
+        // console.error('Error fetching winner:', error);
     }
 };
 
-export const getWinners = async ({ page, limit }: IPaginationDataRequest): Promise<IWinnerData[]> => {
+export const getWinners = async ({ page, limit }: IPaginationDataRequest): Promise<IWinnerData[] | undefined> => {
     let url = '/winners';
 
     if (page && limit) {
@@ -29,11 +29,10 @@ export const getWinners = async ({ page, limit }: IPaginationDataRequest): Promi
         if (Array.isArray(response)) {
             return response;
         } else {
-            throw new Error('Failed to load winners');
+            console.error('Failed to load winners');
         }
     } catch (error) {
         console.error('Error loading the winners list:', error);
-        throw error;
     }
 };
 
@@ -68,7 +67,6 @@ export const deleteWinner = async (id: number): Promise<void> => {
         });
     } catch (error) {
         console.error('Error deleting winner:', error);
-        throw error;
     }
 };
 
