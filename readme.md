@@ -1,6 +1,10 @@
+# ASYNC Race
+
 ## link to task: 
 
 [link](https://github.com/rolling-scopes-school/js-fe-course-en/blob/main/tasks/async-race/README.md?plain=1)
+
+## deploy [Netlify](https://master--async-race-124589.netlify.app/)
 
 ## reference image
 
