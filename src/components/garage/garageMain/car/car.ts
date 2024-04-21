@@ -1,10 +1,12 @@
+import { createElement } from '../../../../shared/functions/createElement';
+
 interface ICarData {
     color: string;
     size?: '60px' | '30px';
 }
 
 export const car = ({ color, size = '60px' }: ICarData): HTMLElement => {
-    const span = document.createElement('span');
+    const span = createElement({ element: 'span', className: 'car-icon' });
 
     span.innerHTML = `
         <svg fill="${color}" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width=${size} height=${size} viewBox="0 0 99.382 99.382" xml:space="preserve" transform="matrix(-1, 0, 0, 1, 0, 0)">

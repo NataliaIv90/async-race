@@ -1,16 +1,15 @@
 import { IPaginationDataRequest, IWinnerData } from '../types/types';
 import { makeApiCall } from './base';
 
-export const getWinner = async (id: number): Promise<IWinnerData | Error> => {
+export const getWinner = async (id: number): Promise<IWinnerData | undefined> => {
     try {
-        const data: IWinnerData | undefined = await makeApiCall({ url: `/garage/${id}`, method: 'GET' });
+        const data: IWinnerData | undefined = await makeApiCall({ url: `/winners/${id}`, method: 'GET' });
         if (!data) {
-            throw new Error('Winner data not found');
+            console.error('Winner data not found');
         }
         return data;
     } catch (error) {
         console.error('Error fetching winner:', error);
-        return error instanceof Error ? error : new Error('Failed to fetch winner');
     }
 };
 
@@ -38,7 +37,7 @@ export const getWinners = async ({ page, limit }: IPaginationDataRequest): Promi
     }
 };
 
-export const createWinner = async (data: IWinnerData): Promise<IWinnerData | Error> => {
+export const createWinner = async (data: IWinnerData): Promise<IWinnerData | undefined> => {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
@@ -51,13 +50,13 @@ export const createWinner = async (data: IWinnerData): Promise<IWinnerData | Err
         });
 
         if (response?.id) {
+            console.log(response);
             return response;
         } else {
-            throw new Error('Failed to post winner data');
+            console.error('Failed to post winner data');
         }
     } catch (error) {
         console.error('Error creating winner:', error);
-        throw error;
     }
 };
 

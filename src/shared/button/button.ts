@@ -31,13 +31,13 @@ export const button = ({
     return div;
 };
 
-export const outlinedButton = ({ text, color }: TOutlinedButtonsData): HTMLButtonElement => {
+export const outlinedButton = ({ text, color, disabled }: TOutlinedButtonsData): HTMLButtonElement => {
     const button = document.createElement('button');
 
     button.innerText = text;
     button.classList.add('outlined-button');
     button.classList.add(color);
-    // button.disabled = disabled;
+    button.disabled = disabled;
     button.setAttribute('type', 'button');
     // button.addEventListener('click', () => {
     //     if (!button.disabled) {

@@ -1,5 +1,6 @@
 import { fetchAndUpdateUI } from '../../components/garage/garageMain/garageMain';
 import { createCar } from '../api/garageApi';
+import { setToStorageAllCars } from './setToStorageAllCars';
 
 const generateRandomColor = () => {
     const letters = '0123456789ABCDEF';
@@ -55,5 +56,8 @@ export const generateCars = () => {
         createCar({ color: generateRandomColor(), name: generateRandomCar() });
     }
 
-    setTimeout(fetchAndUpdateUI, 2000);
+    setTimeout(() => {
+        fetchAndUpdateUI();
+        setToStorageAllCars();
+    }, 2000);
 };

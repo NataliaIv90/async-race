@@ -1,34 +1,54 @@
 import { makeApiCall } from './base';
 
-interface IEngineStatusResponse {
+export interface IEngineStatusResponse {
     velocity: number;
     distance: number;
 }
 
-export const toggleEngine = async (id: number, status: 'started' | 'stopped'): Promise<IEngineStatusResponse> => {
+export interface IToggleEngineData extends IEngineStatusResponse {
+    duration: number;
+}
+
+export const toggleEngine = async (id: number, status: 'started' | 'stopped'): Promise<IToggleEngineData> => {
     try {
+        console.log('Sending PATCH request to toggle engine:', { id, status });
         const response: IEngineStatusResponse = await makeApiCall({
             url: `/engine/?id=${id}&status=${status}`,
             method: 'PATCH',
         });
-
-        return response;
+        const time = Number((response.distance / 1000 / response.velocity).toFixed(2));
+        return {
+            distance: response.distance,
+            velocity: response.velocity,
+            duration: time,
+        };
     } catch (error) {
         console.error(`Error ${status === 'started' ? 'starting' : 'stopping'} engine for car ${id}:`, error);
         throw error;
     }
 };
 
-export const switchEngineToDriveMode = async (id: number): Promise<{ success: boolean }> => {
+export const switchEngineToDriveMode = async (id: number): Promise<{ success: boolean; brokenEngine?: boolean }> => {
+    let brokenEngine = false;
     try {
         const response: { success: boolean } = await makeApiCall({
             url: `/engine/?id=${id}&status=drive`,
             method: 'PATCH',
         });
-
+        console.log(response);
         return response;
     } catch (error) {
-        console.error(`Error switching engine to drive mode for car ${id}:`, error);
-        throw error;
+        if (typeof error === 'object' && error instanceof Error) {
+            if (error.message === "Car has been stopped suddenly. It's engine was broken down.") {
+                console.error('Engine breakdown error:', error.message);
+                brokenEngine = true;
+            } else {
+                console.error(`Error switching engine to drive mode for car ${id}:`, error.message);
+            }
+        } else {
+            console.error('Unknown error occurred:', error);
+        }
+        console.log({ success: false, brokenEngine: brokenEngine });
+        return { success: false, brokenEngine: brokenEngine };
     }
 };

@@ -1,15 +1,17 @@
 import { button } from '../../../../shared/button/button';
+import { resetAllEngineBtns } from '../../../../shared/functions/disableButtonByColor';
 import { generateCars } from '../../../../shared/functions/generateCars';
+import { startRace } from '../../../../shared/functions/startRace';
 
 export const garageBtnConsole = (): HTMLElement => {
     const btnsData = [
         {
             text: 'RACE',
-            onClick: () => {},
+            onClick: startRace,
         },
         {
             text: 'RESET',
-            onClick: () => {},
+            onClick: () => resetAllEngineBtns('reset'),
         },
         {
             text: 'GENERATE CARS',
