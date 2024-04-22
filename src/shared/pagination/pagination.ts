@@ -2,13 +2,13 @@ import { fetchAndUpdateUI as fetchGarageAndUpdateUI } from '../../components/gar
 import { fetchAndUpdateWinnersUI } from '../../components/winners/winners';
 import { button } from '../button/button';
 
-const goToNextPage = async (
-    fetchAndUpdateUI: (page?: number, limit?: number) => Promise<void>,
-    page: number
-): Promise<void> => {
+const goToNextPage = async (page: number, limit: number, view: string): Promise<void> => {
     try {
-        await fetchAndUpdateUI(page);
-        localStorage.setItem('currentPage', page.toString());
+        const fetchFunction = view === 'garage' ? fetchGarageAndUpdateUI : fetchAndUpdateWinnersUI;
+        const currentPage = page || 2;
+        const currentLimit = limit || (view === 'garage' ? 7 : 10);
+        await fetchFunction(currentPage, currentLimit);
+        localStorage.setItem('currentPage', currentPage.toString());
     } catch (error) {
         console.error('Error updating UI:', error);
     }
@@ -25,8 +25,7 @@ export const pagination = (limit: number, view: string) => {
         button({
             text: 'PREV',
             color: 'green',
-            onClick: () =>
-                goToNextPage(view === 'garage' ? fetchGarageAndUpdateUI : fetchAndUpdateWinnersUI, currentPage - 1),
+            onClick: () => goToNextPage(currentPage - 1, limit, view), // Pass view parameter
             disabled: currentPage === 1,
         })
     );
@@ -34,8 +33,7 @@ export const pagination = (limit: number, view: string) => {
         button({
             text: 'NEXT',
             color: 'green',
-            onClick: () =>
-                goToNextPage(view === 'garage' ? fetchGarageAndUpdateUI : fetchAndUpdateWinnersUI, currentPage + 1),
+            onClick: () => goToNextPage(currentPage + 1, limit, view), // Pass view parameter
             disabled: currentPage === totalPages,
         })
     );

@@ -48,6 +48,11 @@ export interface IPaginationDataRequest {
     limit?: number;
 }
 
+export interface IWinnersDataRequest extends IPaginationDataRequest{
+    sort?: 'id' | 'wins' | 'time';
+    order?: 'ASC' | 'DESC';
+}
+
 export interface IWinnerData{
     id: number,
     wins: number,
