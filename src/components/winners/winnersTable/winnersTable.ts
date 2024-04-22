@@ -2,6 +2,7 @@ import { createElement } from '../../../shared/functions/createElement';
 import { car } from '../../garage/garageMain/car/car';
 import './winnersTable.css';
 import { ICreateCarResponse, IWinnerData } from '../../../shared/types/types';
+import { fetchAndUpdateWinnersUI } from '../winners';
 
 interface IWinnerTableRow {
     number: number | string;
@@ -22,6 +23,36 @@ const createRow = ({ number, car, name, wins, bestTime, tableHeading }: IWinnerT
         div.appendChild(createElement({ element: 'div', innerHtml: el, className: 'table-col' }));
     });
     return div;
+};
+
+export const applySortFunction = () => {
+    const headingCells = document.querySelector('.winners-table-heading')?.children;
+    let currentOrder: 'ASC' | 'DESC' = 'ASC';
+    if (!headingCells) return;
+
+    const currentPage = parseInt(localStorage.getItem('currentPage') || '1');
+
+    const toggleSortOrder = () => {
+        const prevOrder = sessionStorage.getItem('prevOrder');
+        if (!prevOrder || prevOrder === 'DESC') {
+            sessionStorage.setItem('prevOrder', 'ASC');
+            currentOrder = 'DESC';
+        } else {
+            sessionStorage.setItem('prevOrder', 'DESC');
+        }
+    };
+
+    const createSortHandler = (index: number, sortField: 'id' | 'wins' | 'time') => {
+        const sortBtn = headingCells[index] as HTMLElement;
+        sortBtn.addEventListener('click', () => {
+            toggleSortOrder();
+            fetchAndUpdateWinnersUI(currentPage, 10, sortField, currentOrder);
+        });
+    };
+
+    createSortHandler(0, 'id');
+    createSortHandler(3, 'wins');
+    createSortHandler(4, 'time');
 };
 
 export const winnersTable = (winnersData: IWinnerData[]): HTMLElement => {

@@ -1,4 +1,4 @@
-import { IPaginationDataRequest, IWinnerData } from '../types/types';
+import { IWinnerData, IWinnersDataRequest } from '../types/types';
 import { makeApiCall } from './base';
 
 export const getWinner = async (id: number): Promise<IWinnerData | undefined> => {
@@ -13,12 +13,17 @@ export const getWinner = async (id: number): Promise<IWinnerData | undefined> =>
     }
 };
 
-export const getWinners = async ({ page, limit }: IPaginationDataRequest): Promise<IWinnerData[] | undefined> => {
+export const getWinners = async ({
+    page,
+    limit,
+    sort,
+    order,
+}: IWinnersDataRequest): Promise<IWinnerData[] | undefined> => {
     let url = '/winners';
 
-    if (page && limit) {
-        url += `?_page=${page}&_limit=${limit}`;
-    }
+    if (page && limit) url += `?_page=${page}&_limit=${limit}`;
+    if (sort) url += `&_sort=${sort}`;
+    if (order) url += `&_order=${order}`;
 
     try {
         const response: IWinnerData[] = await makeApiCall({
