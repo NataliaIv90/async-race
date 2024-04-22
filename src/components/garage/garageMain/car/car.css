@@ -1,0 +1,19 @@
+.car-icon-container{
+    position: absolute;
+    left: 100px;
+}
+
+.animate {
+    animation-name: moveCar;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+@keyframes moveCar {
+    from {
+        left: 100px;
+    }
+    to {
+        rigth: 50px;
+    }    
+}

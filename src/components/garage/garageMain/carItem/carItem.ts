@@ -73,6 +73,7 @@ export const carItem = ({ color, name, id }: ICreateCarResponse): HTMLElement =>
     const div = document.createElement('div');
     div.classList.add('car-item');
     div.setAttribute('key', id.toString());
+    div.id = `car-item-${id.toString()}`;
 
     div.appendChild(carItemHeader(name));
     div.appendChild(carItemMain(color));
